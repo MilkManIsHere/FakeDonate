@@ -6,289 +6,29 @@
   <title>Donation Server Lobby</title>
   <style>
     :root {
-      --bg: #09090b;
-      --panel: #18181b;
-      --panel2: #111114;
-      --border: #27272a;
-      --text: #fafafa;
-      --muted: #a1a1aa;
-      --soft: #71717a;
-      --accent: #f4f4f5;
-      --accentText: #09090b;
-      --danger: #b91c1c;
-      --warning: #92400e;
-      --warningBg: rgba(69, 26, 3, 0.35);
-      --green: #16a34a;
+      --bg:#09090b; --panel:#18181b; --panel2:#111114; --border:#27272a; --text:#fafafa;
+      --muted:#a1a1aa; --soft:#71717a; --accent:#f4f4f5; --accentText:#09090b; --warn:#fde68a;
     }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
-
-    button, input, textarea {
-      font: inherit;
-    }
-
-    .wrap {
-      max-width: 1520px;
-      margin: 0 auto;
-      padding: 16px;
-    }
-
-    .topbar {
-      background: rgba(24, 24, 27, 0.92);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 16px;
-      display: flex;
-      gap: 12px;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
-      margin-bottom: 16px;
-      backdrop-filter: blur(8px);
-    }
-
-    .title small { color: var(--muted); display: block; margin-bottom: 4px; }
-    .title h1 { margin: 0; font-size: 28px; line-height: 1.1; }
-
-    .balanceBox {
-      min-width: 144px;
-      text-align: right;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 10px 14px;
-    }
-    .balanceBox .label { color: var(--muted); font-size: 12px; }
-    .balanceBox .value { font-weight: 800; font-size: 22px; }
-
-    .btn {
-      background: #27272a;
-      color: var(--text);
-      border: 1px solid #3f3f46;
-      border-radius: 12px;
-      padding: 10px 14px;
-      cursor: pointer;
-      transition: 0.15s ease;
-    }
-    .btn:hover { filter: brightness(1.08); }
-    .btn.primary {
-      background: var(--accent);
-      color: var(--accentText);
-      border-color: #e4e4e7;
-      font-weight: 600;
-    }
-    .btn.danger { background: #3f1d1d; border-color: #6b2121; }
-    .btn.block { width: 100%; }
-    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-
-    .input, .textarea {
-      width: 100%;
-      background: var(--bg);
-      color: var(--text);
-      border: 1px solid #3f3f46;
-      border-radius: 12px;
-      padding: 10px 12px;
-      outline: none;
-    }
-    .textarea { min-height: 90px; resize: vertical; }
-
-    .grid {
-      display: grid;
-      gap: 16px;
-      align-items: start;
-    }
-    .grid.layout {
-      grid-template-columns: 340px 1fr 340px;
-    }
-    @media (max-width: 1200px) {
-      .grid.layout { grid-template-columns: 1fr; }
-    }
-
-    .card {
-      background: rgba(24, 24, 27, 0.92);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 16px;
-      box-shadow: 0 12px 32px rgba(0,0,0,.24);
-    }
-    .section-title {
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-    .small { color: var(--muted); font-size: 12px; }
-    .tiny { color: var(--soft); font-size: 11px; }
-
-    .splitTabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .tab {
-      background: #27272a;
-      color: var(--text);
-      border: 1px solid #3f3f46;
-      border-radius: 12px;
-      padding: 10px 12px;
-      cursor: pointer;
-    }
-    .tab.active {
-      background: var(--accent);
-      color: var(--accentText);
-      border-color: #e4e4e7;
-      font-weight: 600;
-    }
-
-    .scrollBox {
-      max-height: 300px;
-      overflow: auto;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 12px;
-      background: var(--panel2);
-    }
-    .scrollBox.tall { max-height: 360px; }
-    .scrollBox.short { max-height: 220px; }
-
-    .serverItem, .feedItem, .leaderItem, .boothItem {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: var(--panel);
-      padding: 12px;
-      margin-bottom: 8px;
-    }
-
-    .serverRow {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .serverGrid {
-      display: grid;
-      gap: 8px;
-    }
-
-    .serverHeader {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .serverBadge {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 8px 12px;
-      font-weight: 800;
-      min-width: 88px;
-      text-align: center;
-    }
-
-    .notice {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 18px;
-      background: #09090b;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 16px;
-      box-shadow: 0 16px 40px rgba(0,0,0,.35);
-      z-index: 60;
-      max-width: min(92vw, 720px);
-    }
-
-    .loginWrap {
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    .inlineRow {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .twoCol {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .boothGrid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
-    }
-    @media (max-width: 1100px) {
-      .boothGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    .boothCard {
-      text-align: left;
-      background: var(--bg);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 10px;
-      cursor: pointer;
-      min-height: 120px;
-    }
-    .boothCard.active { border-color: var(--accent); background: #27272a; }
-    .boothCard .name { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; }
-    .boothCard .body { white-space: pre-wrap; margin-top: 8px; font-size: 12px; color: var(--muted); }
-
-    .hidden { display: none !important; }
-    .warn {
-      border: 1px solid #92400e;
-      background: var(--warningBg);
-      color: #fde68a;
-      border-radius: 16px;
-      padding: 12px;
-      margin-bottom: 12px;
-    }
-
-    .top-right-count {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 8px 12px;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .subtleLine {
-      border: 1px dashed var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      text-align: center;
-      color: var(--soft);
-    }
-
-    .miniStat {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px;
-      background: var(--bg);
-    }
-
-    .spaceY > * + * { margin-top: 10px; }
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    button,input,textarea{font:inherit}
+    .wrap{max-width:1600px;margin:0 auto;padding:16px}
+    .topbar{background:rgba(24,24,27,.92);border:1px solid var(--border);border-radius:24px;padding:16px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;box-shadow:0 18px 50px rgba(0,0,0,.28);margin-bottom:16px;backdrop-filter:blur(8px)}
+    .title small{color:var(--muted);display:block;margin-bottom:4px}.title h1{margin:0;font-size:28px;line-height:1.1}
+    .balanceBox{min-width:144px;text-align:right;background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:10px 14px}.balanceBox .label{color:var(--muted);font-size:12px}.balanceBox .value{font-weight:800;font-size:22px}
+    .btn{background:#27272a;color:var(--text);border:1px solid #3f3f46;border-radius:12px;padding:10px 14px;cursor:pointer;transition:.15s}.btn:hover{filter:brightness(1.08)}.btn.primary{background:var(--accent);color:var(--accentText);border-color:#e4e4e7;font-weight:700}.btn.block{width:100%}.btn:disabled{opacity:.45;cursor:not-allowed}
+    .input,.textarea{width:100%;background:var(--bg);color:var(--text);border:1px solid #3f3f46;border-radius:12px;padding:10px 12px;outline:none}.textarea{min-height:96px;resize:vertical}
+    .grid{display:grid;gap:16px;align-items:start}.grid.layout{grid-template-columns:340px 1fr 340px}@media (max-width:1200px){.grid.layout{grid-template-columns:1fr}}
+    .card{background:rgba(24,24,27,.92);border:1px solid var(--border);border-radius:22px;padding:16px;box-shadow:0 12px 32px rgba(0,0,0,.24)}
+    .section-title{font-weight:800;margin-bottom:10px}.small{color:var(--muted);font-size:12px}.tiny{color:var(--soft);font-size:11px}
+    .splitTabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.tab{background:#27272a;color:var(--text);border:1px solid #3f3f46;border-radius:12px;padding:10px 12px;cursor:pointer}.tab.active{background:var(--accent);color:var(--accentText);border-color:#e4e4e7;font-weight:700}
+    .scrollBox{max-height:300px;overflow:auto;border:1px solid var(--border);border-radius:18px;padding:12px;background:var(--panel2)}.scrollBox.tall{max-height:430px}.scrollBox.short{max-height:220px}.scrollBox.xl{max-height:560px}
+    .serverItem,.feedItem,.leaderItem{border:1px solid var(--border);border-radius:16px;background:var(--panel);padding:12px;margin-bottom:8px}
+    .serverRow{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.serverHeader{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:12px}
+    .notice{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#09090b;border:1px solid var(--border);border-radius:14px;padding:12px 16px;box-shadow:0 16px 40px rgba(0,0,0,.35);z-index:60;max-width:min(92vw,720px)}
+    .loginWrap{max-width:560px;margin:0 auto}.inlineRow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.twoCol{display:grid;grid-template-columns:1fr 1fr;gap:8px}.topThree{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:10px}@media (max-width:1200px){.topThree{grid-template-columns:1fr}}
+    .boothGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}@media (max-width:1100px){.boothGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .boothCard{text-align:left;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:14px;padding:10px;cursor:pointer;min-height:120px}.boothCard.active{border-color:var(--accent);background:#27272a}.boothCard .name{display:flex;justify-content:space-between;gap:8px;font-weight:700}.boothCard .body{white-space:pre-wrap;margin-top:8px;font-size:12px;color:var(--muted)}
+    .hidden{display:none !important}.warn{border:1px solid #92400e;background:rgba(69,26,3,.35);color:var(--warn);border-radius:16px;padding:12px;margin-bottom:12px}.subtleLine{border:1px dashed var(--border);border-radius:16px;padding:24px;text-align:center;color:var(--soft)}.miniStat{border:1px solid var(--border);border-radius:14px;padding:12px;background:var(--bg)}.backRow{display:flex;align-items:center;gap:10px;margin-bottom:12px}.backBtn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:14px;font-size:20px;line-height:1}
   </style>
 </head>
 <body>
@@ -299,699 +39,129 @@
         <h1>Public Servers, Private Servers, Booths, and Donations</h1>
       </div>
       <div class="inlineRow">
-        <div class="balanceBox">
-          <div class="label">Balance</div>
-          <div class="value" id="balanceText">$0.00</div>
-        </div>
+        <div class="balanceBox"><div class="label">Balance</div><div class="value" id="balanceText">$0.00</div></div>
         <button class="btn" id="toggleChatBtn">Hide Messages</button>
         <button class="btn hidden" id="signOutBtn">Sign Out</button>
       </div>
     </div>
 
     <div id="loginPane" class="loginWrap card">
-      <h2 style="margin-top:0">Sign in required</h2>
+      <h2 style="margin-top:0">Sign in / Sign up required</h2>
       <p class="small">You cannot join servers, claim booths, or donate until you are signed in.</p>
-      <input id="usernameInput" class="input" placeholder="Enter username" />
-      <div style="height:12px"></div>
-      <button id="signInBtn" class="btn primary">Sign In</button>
+      <div class="grid" style="gap:10px;">
+        <input id="usernameInput" class="input" placeholder="Username" />
+        <input id="passwordInput" class="input" type="password" placeholder="Password" />
+        <input id="confirmPasswordInput" class="input" type="password" placeholder="Confirm password" />
+        <div class="inlineRow"><button id="signInBtn" class="btn primary">Sign In</button><button id="signUpBtn" class="btn">Sign Up</button></div>
+      </div>
     </div>
 
-    <div id="mainApp" class="grid layout hidden">
-      <div class="grid" style="gap:16px;">
-        <div class="card">
-          <div class="serverHeader">
-            <strong>Messages</strong>
-            <span class="small">Top-left toggle</span>
+    <div id="lobbyView" class="hidden">
+      <div class="grid layout">
+        <div class="grid" style="gap:16px;">
+          <div class="card">
+            <div class="section-title">Create Private Server</div>
+            <input id="serverNameInput" class="input" placeholder="Server name" />
+            <div style="height:10px"></div>
+            <div class="inlineRow" style="font-size:14px;margin-bottom:10px;"><label><input type="radio" name="serverMode" id="unlockedRadio" checked /> Unlocked</label><label><input type="radio" name="serverMode" id="lockedRadio" /> Locked</label></div>
+            <input id="serverPasswordInput" class="input hidden" placeholder="Password (8-24 chars)" />
+            <div style="height:10px"></div>
+            <button id="createServerBtn" class="btn primary block">Create Server</button>
+            <div class="small" style="margin-top:10px">Private server limit: <span id="privateCountText">0/50</span></div>
           </div>
-          <div id="chatPanel" class="scrollBox short"></div>
-          <div id="chatHiddenBox" class="subtleLine hidden">Messages hidden.</div>
+          <div class="card">
+            <div class="section-title">Join Servers</div>
+            <div class="splitTabs"><button id="publicTab" class="tab active">Public Servers</button><button id="privateTab" class="tab">Private Servers</button></div>
+            <div id="publicView" class="scrollBox xl"></div>
+            <div id="privateView" class="scrollBox xl hidden"></div>
+          </div>
         </div>
-
         <div class="card">
-          <div class="section-title">Create Private Server</div>
-          <input id="serverNameInput" class="input" placeholder="Server name" />
-          <div style="height:10px"></div>
-          <div class="inlineRow" style="font-size:14px; margin-bottom:10px;">
-            <label><input type="radio" name="serverMode" id="unlockedRadio" checked /> Unlocked</label>
-            <label><input type="radio" name="serverMode" id="lockedRadio" /> Locked</label>
-          </div>
-          <input id="serverPasswordInput" class="input hidden" placeholder="Password (8-24 chars)" />
-          <div style="height:10px"></div>
-          <button id="createServerBtn" class="btn primary block">Create Server</button>
-          <div class="small" style="margin-top:10px">Private server limit: <span id="privateCountText">0/50</span></div>
+          <div class="section-title">Lobby</div>
+          <div class="subtleLine">This page is only for joining servers.</div>
+          <div style="margin-top:12px" class="small">Once you join, you will enter the server page with a back arrow, stands, live donations, leaderboards, and chat.</div>
+        </div>
+        <div class="card">
+          <div class="section-title">Notes</div>
+          <div class="small">Public servers can never close. Only private servers can auto-close after the owner is away.</div>
         </div>
       </div>
+    </div>
 
-      <div class="grid" style="gap:16px;">
-        <div class="card">
-          <div class="splitTabs">
-            <button id="publicTab" class="tab active">Public Servers</button>
-            <button id="privateTab" class="tab">Private Servers</button>
-          </div>
-          <div id="publicView" class="scrollBox"></div>
-          <div id="privateView" class="scrollBox hidden"></div>
-        </div>
-
-        <div class="card">
-          <div class="serverHeader">
-            <div>
-              <div style="font-weight:800">Current Server</div>
-              <div class="small">Top-right shows people out of 20</div>
-            </div>
-            <div class="top-right-count" id="serverCountText">0/20</div>
-          </div>
-          <div id="serverEmpty" class="subtleLine">Join or create a server to see the booth area.</div>
-
-          <div id="serverPane" class="hidden">
-            <div class="serverItem" style="margin-bottom:12px;">
-              <div class="serverRow">
-                <div>
-                  <div id="currentServerName" style="font-weight:700"></div>
-                  <div id="currentServerType" class="small"></div>
-                </div>
-                <button id="leaveServerBtn" class="btn">Leave</button>
-              </div>
-            </div>
-
-            <div id="awayWarning" class="warn hidden"></div>
-
-            <div class="small" style="margin-bottom:8px">Booths</div>
-            <div id="boothGrid" class="scrollBox tall"></div>
-
-            <div class="twoCol" style="margin-top:16px;">
-              <div class="card" style="padding:14px;">
-                <div class="section-title">Claim / Edit</div>
-                <div id="boothInfo" class="miniStat" style="margin-bottom:10px;">
-                  <div class="small">Owner</div>
-                  <div id="boothOwnerText">None</div>
-                  <div class="small" style="margin-top:6px;">Received: <span id="boothReceivedText">$0.00</span></div>
-                  <div class="small">Donated: <span id="boothDonatedText">$0.00</span></div>
-                </div>
-                <button id="claimBtn" class="btn block">Claim</button>
-                <div style="height:10px"></div>
-                <textarea id="boothTextInput" class="textarea" placeholder="Booth text"></textarea>
-                <div style="height:10px"></div>
-                <button id="editBtn" class="btn primary block">Edit Selected Booth</button>
-                <div class="small" style="margin-top:10px">You can edit only your own claimed booth.</div>
-              </div>
-
-              <div class="card" style="padding:14px;">
-                <div class="section-title">Donate</div>
-                <div class="twoCol">
-                  <input id="dollarsInput" class="input" placeholder="Dollars" />
-                  <input id="centsInput" class="input" placeholder="Cents" />
-                </div>
-                <div style="height:10px"></div>
-                <button id="donateBtn" class="btn primary block">Donate</button>
-                <div class="small" style="margin-top:10px">No empty stands, no self-donations, and the donation must fit your balance.</div>
-                <div class="miniStat" style="margin-top:10px;">
-                  <div>Selected booth sent: <span id="selectedSentText">$0.00</span></div>
-                  <div>Selected booth received: <span id="selectedReceivedText">$0.00</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div id="serverView" class="hidden">
+      <div class="backRow"><button id="backBtn" class="btn backBtn">←</button><div><div style="font-weight:800;font-size:18px;">Server Page</div><div class="small">Leaderboard, live donations, chat, and 20 stands</div></div></div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="serverHeader"><div><div style="font-weight:800">Current Server</div><div class="small">Top-right shows people out of 20</div></div><div class="serverBadge" id="serverCountText">0/20</div></div>
+        <div id="serverMetaRow" class="serverItem" style="margin-bottom:12px;"></div>
+        <div id="awayWarning" class="warn hidden"></div>
       </div>
 
-      <div class="grid" style="gap:16px;">
-        <div class="card">
-          <div class="section-title">Global Live Donations</div>
-          <div id="globalFeed" class="scrollBox short"></div>
-        </div>
+      <div class="topThree" style="margin-bottom:16px;">
+        <div class="card"><div class="section-title">Sent Leaderboard</div><div id="sentBoard" class="scrollBox short"></div></div>
+        <div class="card"><div class="section-title">Global Live Donations</div><div id="globalFeed" class="scrollBox short"></div></div>
+        <div class="card"><div class="section-title">Received Leaderboard</div><div id="receivedBoard" class="scrollBox short"></div></div>
+      </div>
 
+      <div class="grid layout">
+        <div class="card"><div class="section-title">Messages</div><div id="chatPanel" class="scrollBox short"></div><div id="chatHiddenBox" class="subtleLine hidden">Messages hidden.</div></div>
+        <div class="card"><div class="section-title">Booths</div><div class="small" style="margin-bottom:8px;">20 stands in a 5-column layout, scrolling downward.</div><div id="boothGrid" class="scrollBox tall"></div></div>
         <div class="card">
-          <div class="section-title">Sent Leaderboard</div>
-          <div id="sentBoard" class="scrollBox short"></div>
-        </div>
-
-        <div class="card">
-          <div class="section-title">Received Leaderboard</div>
-          <div id="receivedBoard" class="scrollBox short"></div>
+          <div class="section-title">Claim / Edit / Donate</div>
+          <div class="miniStat" style="margin-bottom:10px;"><div class="small">Owner</div><div id="boothOwnerText">None</div><div class="small" style="margin-top:6px;">Received: <span id="boothReceivedText">$0.00</span></div><div class="small">Donated: <span id="boothDonatedText">$0.00</span></div></div>
+          <button id="claimBtn" class="btn block">Claim</button><div style="height:10px"></div><textarea id="boothTextInput" class="textarea" placeholder="Booth text"></textarea><div style="height:10px"></div><button id="editBtn" class="btn primary block">Edit Selected Booth</button>
+          <div class="small" style="margin-top:10px">You can edit only your own claimed booth.</div>
+          <div style="height:16px"></div><div class="section-title">Donate</div><div class="twoCol"><input id="dollarsInput" class="input" placeholder="Dollars" /><input id="centsInput" class="input" placeholder="Cents" /></div><div style="height:10px"></div><button id="donateBtn" class="btn primary block">Donate</button><div class="small" style="margin-top:10px">No empty stands, no self-donations, and the donation must fit your balance.</div>
+          <div class="miniStat" style="margin-top:10px;"><div>Selected booth sent: <span id="selectedSentText">$0.00</span></div><div>Selected booth received: <span id="selectedReceivedText">$0.00</span></div></div>
         </div>
       </div>
     </div>
   </div>
-
   <div id="notice" class="notice hidden"></div>
 
   <script>
-    const PUBLIC_COUNT = 50;
-    const MAX_PRIVATE = 50;
-    const SERVER_CAP = 20;
-    const BOOTH_COUNT = 20;
-    const STORAGE_KEY = "donation_lobby_v1";
+    const PUBLIC_COUNT = 50, MAX_PRIVATE = 50, SERVER_CAP = 20, BOOTH_COUNT = 20, STORAGE_KEY = "donation_lobby_v3";
+    const state = { signedIn:false, username:"", balanceCents:0, publicServers:makePublicServers(), privateServers:[], currentTab:"public", currentPage:"lobby", joinedServerId:null, selectedBoothId:null, showChat:true, noticeTimer:null, awayTimers:{}, awayNoticeVisible:"", messageFeed:[], globalFeed:[], sentBoard:[], receivedBoard:[] };
+    const el = Object.fromEntries(["loginPane","lobbyView","serverView","usernameInput","passwordInput","confirmPasswordInput","signInBtn","signUpBtn","signOutBtn","toggleChatBtn","balanceText","publicTab","privateTab","publicView","privateView","privateCountText","createServerBtn","serverNameInput","unlockedRadio","lockedRadio","serverPasswordInput","backBtn","chatPanel","chatHiddenBox","serverCountText","serverMetaRow","awayWarning","boothGrid","boothOwnerText","boothReceivedText","boothDonatedText","claimBtn","boothTextInput","editBtn","dollarsInput","centsInput","donateBtn","selectedSentText","selectedReceivedText","globalFeed","sentBoard","receivedBoard","notice"].map(id=>[id,document.getElementById(id)]));
 
-    const seedUsers = ["Nova", "Echo", "Pixel", "Mango", "Sky", "Ruby", "Atlas", "Zed"];
+    function clamp(n,min,max){return Math.max(min,Math.min(max,n))} function makeId(prefix="id"){return `${prefix}-${Math.random().toString(36).slice(2,10)}`} function formatMoney(cents){const abs=Math.max(0,cents);return `$${Math.floor(abs/100)}.${String(abs%100).padStart(2,"0")}`} function escapeHtml(str){return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;")} function passwordOk(pw){return typeof pw==="string"&&pw.length>=8&&pw.length<=24}
+    function makePublicServers(){return Array.from({length:PUBLIC_COUNT},(_,i)=>({id:`pub-${i+1}`,name:`Official Server ${i+1}`,players:Math.floor(Math.random()*SERVER_CAP),unlocked:true,owner:"System",private:false,booths:[],closed:false}))}
+    function makeBooths(){return Array.from({length:BOOTH_COUNT},(_,i)=>({id:`booth-${i+1}`,text:`Booth ${i+1}\nClaim me`,owner:null,claimed:false,receivedCents:0,donatedCents:0}))}
+    function makePrivateServer(name,owner,unlocked,password=""){return{ id:makeId("srv"), name, owner, unlocked, password:unlocked?"":password, players:1, private:true, booths:makeBooths(), closed:false }}
+    function getCurrentServer(){if(!state.joinedServerId)return null; return state.privateServers.find(s=>s.id===state.joinedServerId)||state.publicServers.find(s=>s.id===state.joinedServerId)||null}
+    function getCurrentBooth(){const s=getCurrentServer(); if(!s||!state.selectedBoothId)return null; return (s.booths||[]).find(b=>b.id===state.selectedBoothId)||null}
+    function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify({...state,noticeTimer:null,awayTimers:{}}))}
+    function loadState(){const raw=localStorage.getItem(STORAGE_KEY); if(!raw)return; try{const s=JSON.parse(raw); state.signedIn=!!s.signedIn; state.username=s.username||""; state.balanceCents=s.balanceCents||0; state.publicServers=Array.isArray(s.publicServers)?s.publicServers:makePublicServers(); state.privateServers=Array.isArray(s.privateServers)?s.privateServers:[]; state.currentTab=s.currentTab||"public"; state.currentPage=s.currentPage||"lobby"; state.joinedServerId=s.joinedServerId||null; state.selectedBoothId=s.selectedBoothId||null; state.showChat=s.showChat!==false; state.messageFeed=Array.isArray(s.messageFeed)?s.messageFeed:[]; state.globalFeed=Array.isArray(s.globalFeed)?s.globalFeed:[]; state.sentBoard=Array.isArray(s.sentBoard)?s.sentBoard:[]; state.receivedBoard=Array.isArray(s.receivedBoard)?s.receivedBoard:[]}catch{}}
+    function pushNotice(text){el.notice.textContent=text; el.notice.classList.remove("hidden"); clearTimeout(state.noticeTimer); state.noticeTimer=setTimeout(()=>el.notice.classList.add("hidden"),2400)}
+    function addMessage(text){state.messageFeed.unshift({id:makeId("msg"),time:new Date().toLocaleTimeString(),text}); state.messageFeed=state.messageFeed.slice(0,200)} function addGlobal(text){state.globalFeed.unshift({id:makeId("g"),time:new Date().toLocaleTimeString(),text}); state.globalFeed=state.globalFeed.slice(0,200)}
+    function renderShell(){el.loginPane.classList.toggle("hidden",state.signedIn); el.lobbyView.classList.toggle("hidden",!(state.signedIn&&state.currentPage==="lobby")); el.serverView.classList.toggle("hidden",!(state.signedIn&&state.currentPage==="server")); el.signOutBtn.classList.toggle("hidden",!state.signedIn); el.toggleChatBtn.classList.toggle("hidden",!(state.signedIn&&state.currentPage==="server"))}
+    function renderBalance(){el.balanceText.textContent=formatMoney(state.balanceCents)}
+    function renderTabs(){el.publicTab.classList.toggle("active",state.currentTab==="public"); el.privateTab.classList.toggle("active",state.currentTab==="private"); el.publicView.classList.toggle("hidden",state.currentTab!=="public"); el.privateView.classList.toggle("hidden",state.currentTab!=="private"); el.publicView.innerHTML=""; el.privateView.innerHTML=""; state.publicServers.forEach(s=>{const row=document.createElement("div"); row.className="serverItem serverRow"; row.innerHTML=`<div><div style="font-weight:700">${escapeHtml(s.name)}</div><div class="small">Players: ${s.players}/${SERVER_CAP} | Unlocked</div></div><button class="btn primary">Join</button>`; row.querySelector("button").onclick=()=>joinServer(s.id,true); el.publicView.appendChild(row)}); if(!state.privateServers.length){const empty=document.createElement("div"); empty.className="small"; empty.textContent="No private servers yet."; el.privateView.appendChild(empty)} else {state.privateServers.forEach(s=>{const row=document.createElement("div"); row.className="serverItem"; row.innerHTML=`<div class="serverRow"><div><div style="font-weight:700">${escapeHtml(s.name)}</div><div class="small">Owner: ${escapeHtml(s.owner)}</div><div class="small">Players: ${s.players}/${SERVER_CAP} | ${s.unlocked?"Unlocked":"Locked"}</div></div><button class="btn primary">Join</button></div><div class="joinWrap ${s.unlocked?"hidden":""}" style="margin-top:10px;display:flex;gap:8px;"><input class="input pwdInput" placeholder="Password" /><button class="btn primary joinBtn2">Enter</button></div>`; row.querySelector(".joinBtn2")?.addEventListener("click",()=>joinServer(s.id,false,row.querySelector(".pwdInput").value)); row.querySelector("button.btn.primary").onclick=()=>joinServer(s.id,false,row.querySelector(".pwdInput")?.value||""); el.privateView.appendChild(row)})} el.privateCountText.textContent=`${state.privateServers.length}/${MAX_PRIVATE}`}
+    function renderChat(){el.toggleChatBtn.textContent=state.showChat?"Hide Messages":"Show Messages"; el.chatPanel.classList.toggle("hidden",!state.showChat); el.chatHiddenBox.classList.toggle("hidden",state.showChat); el.chatPanel.innerHTML=state.messageFeed.length?state.messageFeed.map(m=>`<div class="feedItem"><div class="tiny">${m.time}</div><div>${escapeHtml(m.text)}</div></div>`).join(""):`<div class="small">No messages yet.</div>`}
+    function renderServer(){const server=getCurrentServer(); const booth=getCurrentBooth(); el.serverCountText.textContent=server?`${server.players}/${SERVER_CAP}`:`0/${SERVER_CAP}`; if(!server){el.serverMetaRow.innerHTML=`<div class="small">No server joined.</div>`; el.boothGrid.innerHTML=""; el.boothOwnerText.textContent="None"; el.boothReceivedText.textContent="$0.00"; el.boothDonatedText.textContent="$0.00"; el.selectedSentText.textContent="$0.00"; el.selectedReceivedText.textContent="$0.00"; return;} el.serverMetaRow.innerHTML=`<div class="serverRow"><div><div style="font-weight:700">${escapeHtml(server.name)}</div><div class="small">${state.privateServers.some(s=>s.id===server.id)?"Private":"Public"}</div></div><button class="btn" id="leaveServerBtn2">Leave</button></div>`; const lb=document.getElementById("leaveServerBtn2"); if(lb) lb.onclick=leaveServer; el.awayWarning.classList.toggle("hidden",!state.awayNoticeVisible); el.awayWarning.textContent=state.awayNoticeVisible||""; el.boothGrid.innerHTML=server.booths.map(b=>`<button class="boothCard ${state.selectedBoothId===b.id?"active":""}" data-booth="${b.id}"><div class="name"><span>${escapeHtml(b.owner||b.id)}</span><span class="tiny">${b.claimed?"Claimed":"Open"}</span></div><div class="body">${escapeHtml(b.text)}</div></button>`).join(""); [...el.boothGrid.querySelectorAll(".boothCard")].forEach(btn=>btn.addEventListener("click",()=>{state.selectedBoothId=btn.dataset.booth; const selected=getCurrentBooth(); if(selected) el.boothTextInput.value=selected.text; renderServer(); saveState()})); el.boothOwnerText.textContent=booth?(booth.owner||"None"):"None"; el.boothReceivedText.textContent=formatMoney(booth?booth.receivedCents:0); el.boothDonatedText.textContent=formatMoney(booth?booth.donatedCents:0); el.selectedSentText.textContent=formatMoney(booth?booth.donatedCents:0); el.selectedReceivedText.textContent=formatMoney(booth?booth.receivedCents:0); el.claimBtn.textContent=booth&&booth.claimed?"Unclaim":"Claim"; el.editBtn.disabled=!(booth&&booth.claimed&&booth.owner===state.username); el.donateBtn.disabled=!(booth&&booth.claimed)}
+    function renderBoards(){el.globalFeed.innerHTML=state.globalFeed.length?state.globalFeed.map(g=>`<div class="feedItem"><div class="tiny">${g.time}</div><div>${escapeHtml(g.text)}</div></div>`).join(""):`<div class="small">No global donations yet.</div>`; el.sentBoard.innerHTML=state.sentBoard.length?state.sentBoard.map(x=>`<div class="leaderItem serverRow"><span>${escapeHtml(x.name)}</span><span>${formatMoney(x.cents)}</span></div>`).join(""):`<div class="small">No sent totals yet.</div>`; el.receivedBoard.innerHTML=state.receivedBoard.length?state.receivedBoard.map(x=>`<div class="leaderItem serverRow"><span>${escapeHtml(x.name)}</span><span>${formatMoney(x.cents)}</span></div>`).join(""):`<div class="small">No received totals yet.</div>`}
+    function renderAll(){renderShell(); renderBalance(); renderTabs(); renderChat(); renderServer(); renderBoards(); saveState()}
 
-    const state = {
-      signedIn: false,
-      username: "",
-      balanceCents: 0,
-      publicServers: makePublicServers(),
-      privateServers: [],
-      currentTab: "public",
-      joinedServerId: null,
-      selectedBoothId: null,
-      showChat: true,
-      joinPassword: "",
-      newServerUnlocked: true,
-      awayTimers: {},
-      messageFeed: [],
-      globalFeed: [],
-      sentBoard: [],
-      receivedBoard: [],
-      noticeTimer: null,
-      awayNoticeTimer: null,
-    };
+    function signIn(){const name=el.usernameInput.value.trim(), pass=el.passwordInput.value; if(!name||!pass) return pushNotice("Enter username and password"); state.username=name; state.signedIn=true; state.currentPage="lobby"; addMessage(`${name} signed in.`); pushNotice(`Signed in as ${name}`); renderAll()}
+    function signUp(){const name=el.usernameInput.value.trim(), pass=el.passwordInput.value, confirm=el.confirmPasswordInput.value; if(!name||!pass||!confirm) return pushNotice("Fill out all sign up fields"); if(pass!==confirm) return pushNotice("Passwords do not match"); state.username=name; state.signedIn=true; state.currentPage="lobby"; addMessage(`${name} signed up.`); pushNotice(`Account created for ${name}`); renderAll()}
+    function signOut(){state.signedIn=false; state.currentPage="lobby"; state.joinedServerId=null; state.selectedBoothId=null; pushNotice("Signed out"); renderAll()}
+    function joinServer(serverId,isPublic,password=""){if(!state.signedIn) return pushNotice("Sign in first."); const server=isPublic?state.publicServers.find(s=>s.id===serverId):state.privateServers.find(s=>s.id===serverId); if(!server) return; if(server.players>=SERVER_CAP) return pushNotice("That server is full."); if(!isPublic && !server.unlocked){ if(!passwordOk(password)) return pushNotice("Password must be 8-24 characters."); if(password!==server.password) return pushNotice("Wrong password."); } server.players=clamp(server.players+1,0,SERVER_CAP); state.joinedServerId=server.id; state.selectedBoothId=null; state.currentPage="server"; state.awayNoticeVisible=""; pushNotice(`Joined ${server.name}`); renderAll()}
+    function leaveServer(){const server=getCurrentServer(); if(!server) return; // public servers never auto-close; they can be left, but remain online.
+      server.players=clamp(server.players-1,0,SERVER_CAP); state.joinedServerId=null; state.selectedBoothId=null; state.currentPage="lobby"; pushNotice("Left server"); renderAll()}
+    function createPrivateServer(){if(!state.signedIn) return pushNotice("Sign in first."); if(state.privateServers.length>=MAX_PRIVATE) return pushNotice("Private server limit reached."); const name=el.serverNameInput.value.trim(); if(!name) return pushNotice("Give the server a name."); const unlocked=el.unlockedRadio.checked; const password=el.serverPasswordInput.value; if(!unlocked && !passwordOk(password)) return pushNotice("Password must be 8-24 characters."); const srv=makePrivateServer(name,state.username,unlocked,unlocked?"":password); state.privateServers.unshift(srv); state.joinedServerId=srv.id; state.selectedBoothId=null; state.currentPage="server"; el.serverNameInput.value=""; el.serverPasswordInput.value=""; pushNotice(`Created ${name}`); renderAll()}
+    function toggleClaim(){const booth=getCurrentBooth(); if(!booth||!state.signedIn) return; if(booth.claimed && booth.owner!==state.username) return; booth.claimed=!booth.claimed; booth.owner=booth.claimed?state.username:null; if(booth.claimed && booth.text.includes("Claim me")) booth.text=`${state.username}'s booth`; pushNotice(booth.claimed?"Booth claimed":"Booth unclaimed"); renderAll()}
+    function editBooth(){const booth=getCurrentBooth(); if(!booth) return; if(!(booth.claimed && booth.owner===state.username)) return pushNotice("You can only edit your own claimed booth"); booth.text=el.boothTextInput.value; pushNotice("Booth updated"); renderAll()}
+    function donate(){const booth=getCurrentBooth(); if(!booth) return; const dollars=parseInt(el.dollarsInput.value||"0",10), cents=parseInt(el.centsInput.value||"0",10), amount=(dollars*100)+cents; if(!amount) return pushNotice("Enter a donation amount"); if(amount>state.balanceCents) return pushNotice("Not enough balance"); if(!booth.claimed) return pushNotice("Cannot donate to an empty booth"); if(booth.owner===state.username) return pushNotice("You cannot donate to yourself"); state.balanceCents-=amount; booth.donatedCents+=amount; booth.receivedCents+=amount; const donor=state.username, recipient=booth.owner, line=`${donor} donated ${formatMoney(amount)} to ${recipient}`; const isGlobal=amount>=1000; addMessage(`Alert to ${recipient}: ${donor} sent you ${formatMoney(amount)}.`); addMessage(`Alert to ${donor}: you donated ${formatMoney(amount)} to ${recipient}.`); if(isGlobal){addMessage(`[GLOBAL] ${line}`)} addGlobal(isGlobal?`[GLOBAL] ${line}`:line); const updateBoard=(board,name,cents)=>{const next=[...board]; const idx=next.findIndex(x=>x.name===name); if(idx>=0) next[idx]={...next[idx],cents:next[idx].cents+cents}; else next.push({name,cents}); return next.sort((a,b)=>b.cents-a.cents)}; state.sentBoard=updateBoard(state.sentBoard,donor,amount); state.receivedBoard=updateBoard(state.receivedBoard,recipient,amount); el.dollarsInput.value=""; el.centsInput.value=""; pushNotice(`Donated ${formatMoney(amount)}`); renderAll()}
+    function startPrivateAwayTimer(serverId){clearTimeout(state.awayTimers[serverId]); state.awayNoticeVisible=`You left ${getCurrentServer()?.name||"the server"}. Return within 10 seconds or it closes.`; renderAll(); state.awayTimers[serverId]=setTimeout(()=>{const s=state.privateServers.find(x=>x.id===serverId); if(!s) return; state.privateServers=state.privateServers.filter(x=>x.id!==serverId); if(state.joinedServerId===serverId) state.joinedServerId=null; state.selectedBoothId=null; state.currentPage="lobby"; state.awayNoticeVisible=`Private server closed because the owner stayed away too long.`; renderAll();},10000)}
 
-    const el = {
-      loginPane: document.getElementById("loginPane"),
-      mainApp: document.getElementById("mainApp"),
-      usernameInput: document.getElementById("usernameInput"),
-      signInBtn: document.getElementById("signInBtn"),
-      signOutBtn: document.getElementById("signOutBtn"),
-      toggleChatBtn: document.getElementById("toggleChatBtn"),
-      balanceText: document.getElementById("balanceText"),
-      publicTab: document.getElementById("publicTab"),
-      privateTab: document.getElementById("privateTab"),
-      publicView: document.getElementById("publicView"),
-      privateView: document.getElementById("privateView"),
-      privateCountText: document.getElementById("privateCountText"),
-      createServerBtn: document.getElementById("createServerBtn"),
-      serverNameInput: document.getElementById("serverNameInput"),
-      unlockedRadio: document.getElementById("unlockedRadio"),
-      lockedRadio: document.getElementById("lockedRadio"),
-      serverPasswordInput: document.getElementById("serverPasswordInput"),
-      chatPanel: document.getElementById("chatPanel"),
-      chatHiddenBox: document.getElementById("chatHiddenBox"),
-      serverPane: document.getElementById("serverPane"),
-      serverEmpty: document.getElementById("serverEmpty"),
-      serverCountText: document.getElementById("serverCountText"),
-      currentServerName: document.getElementById("currentServerName"),
-      currentServerType: document.getElementById("currentServerType"),
-      leaveServerBtn: document.getElementById("leaveServerBtn"),
-      awayWarning: document.getElementById("awayWarning"),
-      boothGrid: document.getElementById("boothGrid"),
-      boothOwnerText: document.getElementById("boothOwnerText"),
-      boothReceivedText: document.getElementById("boothReceivedText"),
-      boothDonatedText: document.getElementById("boothDonatedText"),
-      claimBtn: document.getElementById("claimBtn"),
-      boothTextInput: document.getElementById("boothTextInput"),
-      editBtn: document.getElementById("editBtn"),
-      dollarsInput: document.getElementById("dollarsInput"),
-      centsInput: document.getElementById("centsInput"),
-      donateBtn: document.getElementById("donateBtn"),
-      selectedSentText: document.getElementById("selectedSentText"),
-      selectedReceivedText: document.getElementById("selectedReceivedText"),
-      globalFeed: document.getElementById("globalFeed"),
-      sentBoard: document.getElementById("sentBoard"),
-      receivedBoard: document.getElementById("receivedBoard"),
-      notice: document.getElementById("notice"),
-    };
+    document.addEventListener("visibilitychange",()=>{const server=getCurrentServer(); if(!server||!state.signedIn) return; const isPrivate=state.privateServers.some(s=>s.id===server.id); if(document.hidden && isPrivate){startPrivateAwayTimer(server.id)} else { if(server && state.awayTimers[server.id]) clearTimeout(state.awayTimers[server.id]); state.awayNoticeVisible=""; renderAll(); } });
+    window.addEventListener("focus",()=>{state.awayNoticeVisible=""; const server=getCurrentServer(); if(server && state.awayTimers[server.id]) clearTimeout(state.awayTimers[server.id]); renderAll()});
 
-    function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
-    function makeId(prefix = "id") { return `${prefix}-${Math.random().toString(36).slice(2, 10)}`; }
-    function randomFrom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-    function formatMoney(cents) {
-      const abs = Math.max(0, cents);
-      const dollars = Math.floor(abs / 100);
-      const rem = abs % 100;
-      return `$${dollars}.${String(rem).padStart(2, "0")}`;
-    }
-    function passwordOk(pw) { return typeof pw === "string" && pw.length >= 8 && pw.length <= 24; }
+    el.signInBtn.onclick=signIn; el.signUpBtn.onclick=signUp; el.signOutBtn.onclick=signOut; el.toggleChatBtn.onclick=()=>{state.showChat=!state.showChat; renderAll()}; el.publicTab.onclick=()=>{state.currentTab="public"; renderAll()}; el.privateTab.onclick=()=>{state.currentTab="private"; renderAll()}; el.createServerBtn.onclick=createPrivateServer; el.backBtn.onclick=()=>{state.currentPage="lobby"; renderAll()}; el.claimBtn.onclick=toggleClaim; el.editBtn.onclick=editBooth; el.donateBtn.onclick=donate; el.unlockedRadio.onchange=()=>el.serverPasswordInput.classList.add("hidden"); el.lockedRadio.onchange=()=>el.serverPasswordInput.classList.remove("hidden"); el.usernameInput.addEventListener("keydown",e=>{if(e.key==="Enter") signIn()}); el.passwordInput.addEventListener("keydown",e=>{if(e.key==="Enter") signIn()}); el.confirmPasswordInput.addEventListener("keydown",e=>{if(e.key==="Enter") signUp()}); el.serverNameInput.addEventListener("keydown",e=>{if(e.key==="Enter") createPrivateServer()});
 
-    function makePublicServers() {
-      return Array.from({ length: PUBLIC_COUNT }, (_, i) => ({
-        id: `pub-${i + 1}`,
-        name: `Official Server ${i + 1}`,
-        players: Math.floor(Math.random() * SERVER_CAP),
-        unlocked: true,
-        owner: "System",
-        private: false,
-        booths: [],
-        closed: false,
-      }));
-    }
-
-    function makeBooths() {
-      return Array.from({ length: BOOTH_COUNT }, (_, i) => ({
-        id: `booth-${i + 1}`,
-        text: `Booth ${i + 1}\nClaim me`,
-        owner: null,
-        claimed: false,
-        receivedCents: 0,
-        donatedCents: 0,
-      }));
-    }
-
-    function makePrivateServer(name, owner, unlocked, password = "") {
-      return {
-        id: makeId("srv"),
-        name,
-        owner,
-        unlocked,
-        password: unlocked ? "" : password,
-        players: 1,
-        private: true,
-        booths: makeBooths(),
-        closed: false,
-      };
-    }
-
-    function saveState() {
-      const serializable = {
-        ...state,
-        awayTimers: {},
-        noticeTimer: null,
-        awayNoticeTimer: null,
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(serializable));
-    }
-
-    function loadState() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      try {
-        const saved = JSON.parse(raw);
-        Object.assign(state, {
-          ...state,
-          signedIn: saved.signedIn || false,
-          username: saved.username || "",
-          balanceCents: saved.balanceCents || 0,
-          publicServers: Array.isArray(saved.publicServers) ? saved.publicServers : makePublicServers(),
-          privateServers: Array.isArray(saved.privateServers) ? saved.privateServers : [],
-          currentTab: saved.currentTab || "public",
-          joinedServerId: saved.joinedServerId || null,
-          selectedBoothId: saved.selectedBoothId || null,
-          showChat: saved.showChat !== false,
-          joinPassword: "",
-          newServerUnlocked: true,
-          messageFeed: Array.isArray(saved.messageFeed) ? saved.messageFeed : [],
-          globalFeed: Array.isArray(saved.globalFeed) ? saved.globalFeed : [],
-          sentBoard: Array.isArray(saved.sentBoard) ? saved.sentBoard : [],
-          receivedBoard: Array.isArray(saved.receivedBoard) ? saved.receivedBoard : [],
-        });
-      } catch {
-        // ignore corrupt storage
-      }
-    }
-
-    function getCurrentServer() {
-      if (!state.joinedServerId) return null;
-      return state.privateServers.find((s) => s.id === state.joinedServerId) || state.publicServers.find((s) => s.id === state.joinedServerId) || null;
-    }
-
-    function getCurrentBooth() {
-      const server = getCurrentServer();
-      if (!server || !state.selectedBoothId) return null;
-      return (server.booths || []).find((b) => b.id === state.selectedBoothId) || null;
-    }
-
-    function pushNotice(text) {
-      el.notice.textContent = text;
-      el.notice.classList.remove("hidden");
-      clearTimeout(state.noticeTimer);
-      state.noticeTimer = setTimeout(() => el.notice.classList.add("hidden"), 2400);
-    }
-
-    function addMessage(text) {
-      state.messageFeed.unshift({ id: makeId("msg"), time: new Date().toLocaleTimeString(), text });
-      state.messageFeed = state.messageFeed.slice(0, 200);
-    }
-
-    function addGlobal(text) {
-      state.globalFeed.unshift({ id: makeId("g"), time: new Date().toLocaleTimeString(), text });
-      state.globalFeed = state.globalFeed.slice(0, 200);
-    }
-
-    function renderLogin() {
-      el.loginPane.classList.toggle("hidden", state.signedIn);
-      el.mainApp.classList.toggle("hidden", !state.signedIn);
-      el.signOutBtn.classList.toggle("hidden", !state.signedIn);
-    }
-
-    function renderBalance() {
-      el.balanceText.textContent = formatMoney(state.balanceCents);
-    }
-
-    function renderTabs() {
-      el.publicTab.classList.toggle("active", state.currentTab === "public");
-      el.privateTab.classList.toggle("active", state.currentTab === "private");
-      el.publicView.classList.toggle("hidden", state.currentTab !== "public");
-      el.privateView.classList.toggle("hidden", state.currentTab !== "private");
-      el.privateView.innerHTML = "";
-      el.publicView.innerHTML = "";
-
-      state.publicServers.forEach((s) => {
-        const row = document.createElement("div");
-        row.className = "serverItem serverRow";
-        row.innerHTML = `
-          <div>
-            <div style="font-weight:700">${escapeHtml(s.name)}</div>
-            <div class="small">Players: ${s.players}/${SERVER_CAP} | Unlocked</div>
-          </div>
-          <button class="btn primary">Join</button>
-        `;
-        row.querySelector("button").onclick = () => joinPublicServer(s.id);
-        el.publicView.appendChild(row);
-      });
-
-      if (!state.privateServers.length) {
-        const empty = document.createElement("div");
-        empty.className = "small";
-        empty.textContent = "No private servers yet.";
-        el.privateView.appendChild(empty);
-      } else {
-        state.privateServers.forEach((s) => {
-          const row = document.createElement("div");
-          row.className = "serverItem";
-          row.innerHTML = `
-            <div class="serverRow">
-              <div>
-                <div style="font-weight:700">${escapeHtml(s.name)}</div>
-                <div class="small">Owner: ${escapeHtml(s.owner)}</div>
-                <div class="small">Players: ${s.players}/${SERVER_CAP} | ${s.unlocked ? "Unlocked" : "Locked"}</div>
-              </div>
-              <button class="btn primary">Join</button>
-            </div>
-            <div class="joinWrap ${s.unlocked ? "hidden" : ""}" style="margin-top:10px; display:flex; gap:8px;">
-              <input class="input pwdInput" placeholder="Password" />
-              <button class="btn primary joinBtn2">Enter</button>
-            </div>
-          `;
-          row.querySelector(".joinBtn2")?.addEventListener("click", () => {
-            const pwd = row.querySelector(".pwdInput").value;
-            joinPrivateServer(s.id, pwd);
-          });
-          row.querySelector("button.btn.primary").onclick = () => joinPrivateServer(s.id, s.unlocked ? "" : row.querySelector(".pwdInput")?.value || "");
-          el.privateView.appendChild(row);
-        });
-      }
-
-      el.privateCountText.textContent = `${state.privateServers.length}/${MAX_PRIVATE}`;
-    }
-
-    function renderChat() {
-      el.toggleChatBtn.textContent = state.showChat ? "Hide Messages" : "Show Messages";
-      el.chatPanel.classList.toggle("hidden", !state.showChat);
-      el.chatHiddenBox.classList.toggle("hidden", state.showChat);
-      el.chatPanel.innerHTML = state.messageFeed.length
-        ? state.messageFeed.map((m) => `<div class="feedItem"><div class="tiny">${m.time}</div><div>${escapeHtml(m.text)}</div></div>`).join("")
-        : `<div class="small">No messages yet.</div>`;
-    }
-
-    function renderServer() {
-      const server = getCurrentServer();
-      el.serverPane.classList.toggle("hidden", !server);
-      el.serverEmpty.classList.toggle("hidden", !!server);
-      if (!server) return;
-
-      el.serverCountText.textContent = `${server.players}/${SERVER_CAP}`;
-      el.currentServerName.textContent = server.name;
-      el.currentServerType.textContent = state.privateServers.some((s) => s.id === server.id) ? "Private" : "Public";
-      el.awayWarning.classList.toggle("hidden", !state.awayNoticeVisible);
-      el.awayWarning.textContent = state.awayNoticeVisible || "";
-
-      el.boothGrid.innerHTML = server.booths.map((b) => {
-        const active = state.selectedBoothId === b.id ? "active" : "";
-        const ownerLabel = b.owner || b.id;
-        return `
-          <button class="boothCard ${active}" data-booth="${b.id}">
-            <div class="name"><span>${escapeHtml(ownerLabel)}</span><span class="tiny">${b.claimed ? "Claimed" : "Open"}</span></div>
-            <div class="body">${escapeHtml(b.text)}</div>
-          </button>
-        `;
-      }).join("");
-
-      [...el.boothGrid.querySelectorAll(".boothCard")].forEach((btn) => {
-        btn.addEventListener("click", () => {
-          state.selectedBoothId = btn.dataset.booth;
-          const booth = getCurrentBooth();
-          if (booth) el.boothTextInput.value = booth.text;
-          renderServer();
-          saveState();
-        });
-      });
-
-      const booth = getCurrentBooth();
-      el.boothOwnerText.textContent = booth ? (booth.owner || "None") : "None";
-      el.boothReceivedText.textContent = formatMoney(booth ? booth.receivedCents : 0);
-      el.boothDonatedText.textContent = formatMoney(booth ? booth.donatedCents : 0);
-      el.selectedSentText.textContent = formatMoney(booth ? booth.donatedCents : 0);
-      el.selectedReceivedText.textContent = formatMoney(booth ? booth.receivedCents : 0);
-      el.claimBtn.textContent = booth && booth.claimed ? "Unclaim" : "Claim";
-      el.editBtn.disabled = !(booth && booth.claimed && booth.owner === state.username);
-      el.donateBtn.disabled = !(booth && booth.claimed);
-    }
-
-    function renderBoards() {
-      el.globalFeed.innerHTML = state.globalFeed.length
-        ? state.globalFeed.map((g) => `<div class="feedItem"><div class="tiny">${g.time}</div><div>${escapeHtml(g.text)}</div></div>`).join("")
-        : `<div class="small">No global donations yet.</div>`;
-
-      el.sentBoard.innerHTML = state.sentBoard.length
-        ? state.sentBoard.map((x) => `<div class="leaderItem serverRow"><span>${escapeHtml(x.name)}</span><span>${formatMoney(x.cents)}</span></div>`).join("")
-        : `<div class="small">No sent totals yet.</div>`;
-
-      el.receivedBoard.innerHTML = state.receivedBoard.length
-        ? state.receivedBoard.map((x) => `<div class="leaderItem serverRow"><span>${escapeHtml(x.name)}</span><span>${formatMoney(x.cents)}</span></div>`).join("")
-        : `<div class="small">No received totals yet.</div>`;
-    }
-
-    function renderAll() {
-      renderLogin();
-      renderBalance();
-      renderTabs();
-      renderChat();
-      renderServer();
-      renderBoards();
-      saveState();
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-    }
-
-    function signIn() {
-      const name = el.usernameInput.value.trim();
-      if (!name) return pushNotice("Enter a username first");
-      state.username = name;
-      state.signedIn = true;
-      addMessage(`${name} signed in.`);
-      pushNotice(`Signed in as ${name}`);
-      renderAll();
-    }
-
-    function signOut() {
-      state.signedIn = false;
-      state.joinedServerId = null;
-      state.selectedBoothId = null;
-      pushNotice("Signed out");
-      renderAll();
-    }
-
-    function joinPublicServer(id) {
-      if (!state.signedIn) return pushNotice("Sign in first.");
-      const server = state.publicServers.find((s) => s.id === id);
-      if (!server) return;
-      if (server.players >= SERVER_CAP) return pushNotice("That server is full.");
-      server.players = clamp(server.players + 1, 0, SERVER_CAP);
-      state.joinedServerId = id;
-      state.selectedBoothId = null;
-      pushNotice(`Joined ${server.name}`);
-      renderAll();
-    }
-
-    function joinPrivateServer(id, password) {
-      if (!state.signedIn) return pushNotice("Sign in first.");
-      const server = state.privateServers.find((s) => s.id === id);
-      if (!server) return;
-      if (server.players >= SERVER_CAP) return pushNotice("That server is full.");
-      if (!server.unlocked) {
-        if (!passwordOk(password)) return pushNotice("Password must be 8-24 characters.");
-        if (password !== server.password) return pushNotice("Wrong password.");
-      }
-      server.players = clamp(server.players + 1, 0, SERVER_CAP);
-      state.joinedServerId = id;
-      state.selectedBoothId = null;
-      pushNotice(`Joined ${server.name}`);
-      renderAll();
-    }
-
-    function leaveServer() {
-      const server = getCurrentServer();
-      if (!server) return;
-      if (state.privateServers.some((s) => s.id === server.id)) {
-        server.players = clamp(server.players - 1, 0, SERVER_CAP);
-      } else {
-        server.players = clamp(server.players - 1, 0, SERVER_CAP);
-      }
-      state.joinedServerId = null;
-      state.selectedBoothId = null;
-      pushNotice("Left server");
-      renderAll();
-    }
-
-    function createPrivateServer() {
-      if (!state.signedIn) return pushNotice("Sign in first.");
-      if (state.privateServers.length >= MAX_PRIVATE) return pushNotice("Private server limit reached.");
-      const name = el.serverNameInput.value.trim();
-      if (!name) return pushNotice("Give the server a name.");
-      const unlocked = el.unlockedRadio.checked;
-      const password = el.serverPasswordInput.value;
-      if (!unlocked && !passwordOk(password)) return pushNotice("Password must be 8-24 characters.");
-      const srv = makePrivateServer(name, state.username, unlocked, unlocked ? "" : password);
-      state.privateServers.unshift(srv);
-      state.joinedServerId = srv.id;
-      state.selectedBoothId = null;
-      el.serverNameInput.value = "";
-      el.serverPasswordInput.value = "";
-      pushNotice(`Created ${name}`);
-      renderAll();
-    }
-
-    function toggleClaim() {
-      const server = getCurrentServer();
-      const booth = getCurrentBooth();
-      if (!state.signedIn || !server || !booth) return;
-      if (booth.claimed && booth.owner !== state.username) return;
-      booth.claimed = !booth.claimed;
-      booth.owner = booth.claimed ? state.username : null;
-      if (booth.claimed && booth.text.includes("Claim me")) booth.text = `${state.username}'s booth`;
-      pushNotice(booth.claimed ? "Booth claimed" : "Booth unclaimed");
-      renderAll();
-    }
-
-    function editBooth() {
-      const booth = getCurrentBooth();
-      if (!booth) return;
-      if (!(booth.claimed && booth.owner === state.username)) return pushNotice("You can only edit your own claimed booth");
-      booth.text = el.boothTextInput.value;
-      pushNotice("Booth updated");
-      renderAll();
-    }
-
-    function donate() {
-      const booth = getCurrentBooth();
-      const server = getCurrentServer();
-      if (!booth || !server) return;
-      const dollars = parseInt(el.dollarsInput.value || "0", 10);
-      const cents = parseInt(el.centsInput.value || "0", 10);
-      const amount = (dollars * 100) + cents;
-      if (!amount) return pushNotice("Enter a donation amount");
-      if (amount > state.balanceCents) return pushNotice("Not enough balance");
-      if (!booth.claimed) return pushNotice("Cannot donate to an empty booth");
-      if (booth.owner === state.username) return pushNotice("You cannot donate to yourself");
-
-      state.balanceCents -= amount;
-      booth.donatedCents += amount;
-      booth.receivedCents += amount;
-
-      const donor = state.username;
-      const recipient = booth.owner;
-      const line = `${donor} donated ${formatMoney(amount)} to ${recipient}`;
-      const isGlobal = amount >= 1000;
-
-      addMessage(`Alert to ${recipient}: ${donor} sent you ${formatMoney(amount)}.`);
-      addMessage(`Alert to ${donor}: you donated ${formatMoney(amount)} to ${recipient}.`);
-      if (isGlobal) addMessage(`[GLOBAL] ${line}`);
-      addGlobal(isGlobal ? `[GLOBAL] ${line}` : line);
-
-      const updateBoard = (board, name, cents) => {
-        const next = [...board];
-        const idx = next.findIndex((x) => x.name === name);
-        if (idx >= 0) next[idx] = { ...next[idx], cents: next[idx].cents + cents };
-        else next.push({ name, cents });
-        return next.sort((a, b) => b.cents - a.cents);
-      };
-      state.sentBoard = updateBoard(state.sentBoard, donor, amount);
-      state.receivedBoard = updateBoard(state.receivedBoard, recipient, amount);
-
-      el.dollarsInput.value = "";
-      el.centsInput.value = "";
-      pushNotice(`Donated ${formatMoney(amount)}`);
-      renderAll();
-    }
-
-    function showOwnerAwayTimeout(serverId) {
-      state.awayNoticeVisible = `You left ${getCurrentServer()?.name || "the server"}. Return within 10 seconds or it closes.`;
-      renderAll();
-      clearTimeout(state.awayTimers[serverId]);
-      state.awayTimers[serverId] = setTimeout(() => {
-        state.privateServers = state.privateServers.filter((s) => s.id !== serverId);
-        if (state.joinedServerId === serverId) state.joinedServerId = null;
-        state.selectedBoothId = null;
-        state.awayNoticeVisible = `${serverId} closed because the owner stayed away too long.`;
-        renderAll();
-      }, 10000);
-    }
-
-    document.addEventListener("visibilitychange", () => {
-      const server = getCurrentServer();
-      if (!server || !state.signedIn) return;
-      if (document.hidden) {
-        showOwnerAwayTimeout(server.id);
-      } else {
-        clearTimeout(state.awayTimers[server.id]);
-        state.awayNoticeVisible = "";
-        renderAll();
-      }
-    });
-
-    el.signInBtn.onclick = signIn;
-    el.signOutBtn.onclick = signOut;
-    el.toggleChatBtn.onclick = () => { state.showChat = !state.showChat; renderAll(); };
-    el.publicTab.onclick = () => { state.currentTab = "public"; renderAll(); };
-    el.privateTab.onclick = () => { state.currentTab = "private"; renderAll(); };
-    el.createServerBtn.onclick = createPrivateServer;
-    el.leaveServerBtn.onclick = leaveServer;
-    el.claimBtn.onclick = toggleClaim;
-    el.editBtn.onclick = editBooth;
-    el.donateBtn.onclick = donate;
-
-    el.unlockedRadio.onchange = () => {
-      el.serverPasswordInput.classList.add("hidden");
-    };
-    el.lockedRadio.onchange = () => {
-      el.serverPasswordInput.classList.remove("hidden");
-    };
-
-    el.usernameInput.addEventListener("keydown", (e) => { if (e.key === "Enter") signIn(); });
-    el.serverNameInput.addEventListener("keydown", (e) => { if (e.key === "Enter") createPrivateServer(); });
-
-    loadState();
-
-    if (state.signedIn) {
-      el.usernameInput.value = state.username;
-    }
-
-    setInterval(() => {
-      state.balanceCents += 1;
-      renderBalance();
-      saveState();
-    }, 500);
-
-    setInterval(() => {
-      state.publicServers = state.publicServers.map((s) => ({
-        ...s,
-        players: clamp(s.players + (Math.random() > 0.75 ? 1 : Math.random() < 0.25 ? -1 : 0), 0, SERVER_CAP),
-      }));
-      renderTabs();
-    }, 4000);
-
-    setInterval(() => {
-      if (!state.showChat) return;
-      state.messageFeed.unshift({ id: makeId("msg"), time: new Date().toLocaleTimeString(), text: `[CHAT] ${randomFrom(seedUsers)} checked a booth.` });
-      state.messageFeed = state.messageFeed.slice(0, 200);
-      renderChat();
-      saveState();
-    }, 9000);
+    loadState(); if(state.signedIn) el.usernameInput.value=state.username;
+    setInterval(()=>{state.balanceCents+=1; renderBalance(); saveState()},500);
+    setInterval(()=>{state.publicServers=state.publicServers.map(s=>({...s, players: clamp(s.players + (Math.random()>0.75?1:Math.random()<0.25?-1:0), 0, SERVER_CAP)})); renderTabs();},4000);
+    setInterval(()=>{if(!state.showChat) return; state.messageFeed.unshift({id:makeId("msg"),time:new Date().toLocaleTimeString(),text:`[CHAT] Someone checked a booth.`}); state.messageFeed=state.messageFeed.slice(0,200); renderChat(); saveState()},9000);
 
     renderAll();
   </script>
